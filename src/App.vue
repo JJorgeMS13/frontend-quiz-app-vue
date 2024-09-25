@@ -55,66 +55,40 @@ export default {
         const response = await axios.get('./data.json');        
         const jsonData = response.data;
 
-        this.optionQuizzes = jsonData.quizzes.map(quiz => {
-          let className = '';
-          switch (quiz.title) {
-            case 'HTML':
-              className = 'bg_color--organge';
-              break;
-            case 'CSS':
-              className = 'bg_color--cyan';
-              break;
-            case 'JavaScript':
-              className = 'bg_color--blue';
-              break;
-            case 'Accessibility':
-              className = 'bg_color--violet';
-              break;
-          
-            default:
-              break;
-          }
-          return {
+        const classMap = {
+          'HTML': 'bg_color--organge',
+          'CSS': 'bg_color--cyan',
+          'JavaScript': 'bg_color--blue',
+          'Accessibility': 'bg_color--violet',
+        }
+
+        this.optionQuizzes = jsonData.quizzes.map(quiz => ({
             icon: quiz.icon,
             title: quiz.title,
-            class: className,
-          }
-        });
+            class: classMap[quiz.title] || '',
+
+        }));
         
       } catch (error) {
         console.log(error);
       }
     },
-    navigateToPage(option){   
+    // navegación en los diferentes opciones.
+    navigateToPage(option){  
+      //Se muestra el menu de navegación si esta en home.
       this.menuVisibility(this.$route);
-      switch (option.title) {
-        case 'HTML':
-          this.title = option.title;
-          this.iconTitle = option.icon;
-          this.colorImage = option.class;
-          this.$router.push('/quiz/HTML');
-          break;
-        case 'CSS':
-          this.title = option.title;
-          this.iconTitle = option.icon;
-          this.colorImage = option.class;
-          this.$router.push('/quiz/CSS');
-          break;
-        case 'JavaScript':
-          this.title = option.title;
-          this.iconTitle = option.icon;
-          this.colorImage = option.class;
-          this.$router.push('/quiz/JavaScript');
-          break;
-        case 'Accessibility':
-          this.title = option.title;
-          this.iconTitle = option.icon;
-          this.colorImage = option.class;
-          this.$router.push('/quiz/Accessibility');
-          break;
-        default:
-          this.$router.push('/');
-          break;
+      //Se actualiza los atributos con la opció elejida.
+      this.title = option.title;
+      this.iconTitle = option.icon;
+      this.colorImage = option.class;
+
+      const validOptions = ['HTML', 'CSS', 'JavaScript', 'Accessibility'];
+      // Se busca que menu elijio para redireccionarla a esa página.
+      if (validOptions.includes(option.title)) {
+        this.$router.push(`/quiz/${option.title}`);
+      } else {
+        // si mandan una ruta que no tenemos te envia al home.
+        this.$router.push('/');
       }
     }
   },
