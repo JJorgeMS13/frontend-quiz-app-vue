@@ -43,16 +43,13 @@ export default {
     },
     computed: {
         colorImg(){
-            switch (this.scored.title) {
-                case 'HTML':
-                    return 'bg_color--organge';
-                case 'CSS':
-                    return 'bg_color--cyan'
-                case 'JavaScript':
-                    return 'bg_color--blue'
-                case 'Accessibility':
-                    return 'bg_color--violet'
-            } 
+            const classMap = {
+                'HTML': 'bg_color--organge',
+                'CSS': 'bg_color--cyan',
+                'JavaScript': 'bg_color--blue',
+                'Accessibility': 'bg_color--violet',
+            }
+            return classMap[this.scored.title]
         }
     },
     created(){
@@ -147,18 +144,6 @@ export default {
 }
 .card__scored-dark span {
     color: #ABC1E1;
-}
-.bg_color--organge {
-    background-color: #FFF1E9;
-}
-.bg_color--cyan {
-    background-color: #E0FDEF;
-}
-.bg_color--blue {
-    background-color: #EBF0FF;
-}
-.bg_color--violet {
-    background-color: #F6E7FF;
 }
 @media screen and (min-width: 48rem) {
     .container__info-score {
